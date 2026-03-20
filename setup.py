@@ -54,7 +54,7 @@ def init_database(config: dict, output_dir: str | Path = "output", db_name: str 
 
     # Read schema
     version = config['schema_version'][0]
-    schema_file = Path("input") / (f"schema_{version}.sql" if version != 31 else "schema_3_1.sql")
+    schema_file = Path("input") / "canoe_dataset_schema.sql"
     schema_sql = schema_file.read_text(encoding="utf-8")
 
     # Recreate DB
