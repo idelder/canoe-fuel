@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CANOE Fuel Sector Documentation</title>
+<style>
+:root {
+    --bg: #ffffff;
+    --fg: #1a1a2e;
+    --accent: #e65100; /* Distinct orange accent color for fuel */
+    --accent-light: #fff3e0;
+    --border: #ffe0b2;
+    --code-bg: #fffbf5;
+    --link: #1976d2;
+    --toc-bg: #fffefe;
+    --sidebar-width: 280px;
+    --max-content: 920px;
+    --table-header-bg: #fff3e0;
+    --table-stripe: #fffaf5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+}
+
+/* ---- Sidebar navigation ---- */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--toc-bg);
+    border-right: 1px solid var(--border);
+    padding: 1.2rem 1rem;
+    z-index: 100;
+}
+
+#sidebar h2 {
+    margin: 0 0 0.8rem 0;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+}
+
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar li {
+    margin: 0.15rem 0;
+}
+
+#sidebar a {
+    display: block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    transition: background 0.15s;
+}
+
+#sidebar a:hover, #sidebar a.active {
+    background: var(--accent-light);
+    color: var(--accent);
+}
+
+#sidebar .toc-section {
+    margin-top: 1.2rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
+}
+
+#sidebar .toc-section-label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* ---- Main content ---- */
+#content {
+    margin-left: var(--sidebar-width);
+    max-width: var(--max-content);
+    padding: 2rem 2.5rem 4rem 2.5rem;
+}
+
+/* ---- Typography ---- */
+h1 {
+    font-size: 2rem;
+    margin: 2rem 0 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--accent);
+    color: var(--accent);
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin: 2.4rem 0 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--accent);
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin: 1.8rem 0 0.4rem;
+    color: var(--accent);
+}
+
+h4 {
+    font-size: 1.05rem;
+    margin: 1.4rem 0 0.3rem;
+}
+
+p { margin: 0.6rem 0; }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- Code ---- */
+code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.88em;
+    background: var(--code-bg);
+    padding: 0.15em 0.35em;
+    border-radius: 4px;
+}
+
+pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* ---- Tables ---- */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    font-size: 0.92rem;
+}
+
+th, td {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background: var(--table-header-bg);
+    font-weight: 600;
+}
+
+tr:nth-child(even) td { background: var(--table-stripe); }
+
+/* ---- Lists ---- */
+ul, ol { padding-left: 1.6rem; }
+li { margin: 0.25rem 0; }
+li > ul, li > ol { margin-top: 0.15rem; }
+
+/* ---- Blockquotes (used for notes) ---- */
+blockquote {
+    margin: 1rem 0;
+    padding: 0.8rem 1.2rem;
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p { margin: 0.2rem 0; }
+
+/* ---- Horizontal rule ---- */
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+}
+
+/* ---- Section divider ---- */
+.section-divider {
+    margin: 3rem 0;
+    padding: 1.5rem 0 0;
+    border-top: 3px solid var(--accent);
+}
+
+.section-divider h1 {
+    border-bottom: none;
+    margin-top: 0;
+}
+
+/* ---- Print styles ---- */
+@media print {
+    #sidebar { display: none; }
+    #content { margin-left: 0; max-width: 100%; }
+    h1, h2, h3 { break-after: avoid; }
+    table { break-inside: avoid; }
+    pre { white-space: pre-wrap; word-wrap: break-word; }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+    #sidebar { display: none; }
+    #content { margin-left: 0; padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <h2>CANOE Documentation</h2>
+  <div class="toc-section">
+    <div class="toc-section-label">Data Processing</div>
+    <ul>
+      <li><a href="#canoe-fuel-sector-data-processing-documentation">CANOE Fuel Sector &mdash; Data Processing</a></li>
+      <li><a href="#table-of-contents">Table of Contents</a></li>
+      <li><a href="#1-overview">1. Overview</a></li>
+      <li><a href="#2-pipeline-architecture">2. Pipeline Architecture</a></li>
+      <li><a href="#3-configuration-and-setup">3. Configuration and Setup</a></li>
+      <li><a href="#4-external-data-fetching-eia-aeo">4. External Data Fetching</a></li>
+      <li><a href="#5-technology-and-commodity-mapping">5. Tech &amp; Commodity Mapping</a></li>
+      <li><a href="#6-cost-variables-and-proxying">6. Cost Variables &amp; Proxying</a></li>
+      <li><a href="#7-efficiency-and-emissions">7. Efficiency &amp; Emissions</a></li>
+      <li><a href="#8-known-assumptions-and-limitations">8. Assumptions &amp; Limitations</a></li>
+    </ul>
+  </div>
+  <div class="toc-section">
+    <div class="toc-section-label">Data Sources</div>
+    <ul>
+      <li><a href="#canoe-fuel-sector-data-sources-catalog">CANOE Fuel Sector &mdash; Data Sources</a></li>
+      <li><a href="#1-data-source-summary">1. Data Source Summary</a></li>
+      <li><a href="#2-us-eia-annual-energy-outlook-aeo">2. EIA AEO</a></li>
+      <li><a href="#3-internal-csv-references">3. Internal CSVs</a></li>
+      <li><a href="#4-internal-constants-setupconfig">4. Internal Constants</a></li>
+      <li><a href="#5-update-procedures-checklist">5. Update Procedures</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="content">
+
+<h1 id="canoe-fuel-sector-data-processing-documentation">CANOE Fuel Sector &mdash; Data Processing Documentation</h1>
+<p><em>Comprehensive documentation of the data pipeline that converts upstream data sources into a Temoa-ready SQLite database for the Canadian Open Energy (CANOE) model's fuel delivery/price sector.</em></p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-overview">Overview</a></li>
+<li><a href="#2-pipeline-architecture">Pipeline Architecture</a></li>
+<li><a href="#3-configuration-and-setup">Configuration and Setup</a></li>
+<li><a href="#4-external-data-fetching-eia-aeo">External Data Fetching (EIA AEO)</a></li>
+<li><a href="#5-technology-and-commodity-mapping">Technology and Commodity Mapping</a></li>
+<li><a href="#6-cost-variables-and-proxying">Cost Variables and Proxying</a></li>
+<li><a href="#7-efficiency-and-emissions">Efficiency and Emissions</a></li>
+<li><a href="#8-known-assumptions-and-limitations">Known Assumptions and Limitations</a></li>
+</ol>
+<hr>
+
+<h2 id="1-overview">1. Overview</h2>
+<h3 id="purpose">Purpose</h3>
+<p>The CANOE fuel sector tool does not represent physical extraction or refining bounds locally. Instead, it creates a structured "dummy" fuel delivery layer wrapping around the demand sectors. It functionally provides the infinite-supply energy source nodes bound strictly by dynamic <strong>energy prices</strong>, <strong>emission limits</strong>, and <strong>currency/inflation adjustments</strong>.</p>
+<h3 id="what-the-tool-produces">What the Tool Produces</h3>
+<ul>
+<li>A <strong>Temoa-schema SQLite database</strong> containing the "import" technologies connecting raw theoretical fuel pools (<code>F_ng</code>, <code>F_dsl</code>) into sector-specific end-use commodities (<code>C_ng</code>, <code>I_dsl</code>, <code>T_gsl</code>).</li>
+<li>Fully extrapolated fuel pathways holding capital costs (<code>CostVariable</code>), efficiencies, emission generation flags, and lifetime definitions.</li>
+</ul>
+<h3 id="scope">Scope</h3>
+<p>The model operates across:</p>
+<ul>
+<li><strong>Regions</strong>: Canadian provinces.</li>
+<li><strong>Commodities</strong>: Encompasses fundamental end-use fuels (Natural Gas, Diesel, Heavy Fuel Oil, Propane, Gasoline, Biomass, Uranium, Ethanol, Renewable Diesel, SPK, and Hydrogen).</li>
+<li><strong>Planning horizon</strong>: Configurable periods defined within the core parameters (default spans 2025 onwards).</li>
+</ul>
+<hr>
+
+<h2 id="2-pipeline-architecture">2. Pipeline Architecture</h2>
+<p>The processing logic utilizes an ETL pipeline overseen by <code>aggregator.py</code>:</p>
+<div class="codehilite"><pre><span></span><code>1. aggregator.py        &rarr; Main orchestrator
+   a. setup_runtime     &rarr; Initialize database, build runtime frames, and define currency/inflation factors
+   b. eia_api           &rarr; Fetch EIA AEO price trajectories (or load from local pickle cache)
+   c. techcom           &rarr; Format the baseline physical flows (mapping inputs -&gt; outputs)
+   d. efficiency        &rarr; Establish perfect bounds representing theoretical transport/delivery (Eff = 1.0)
+   e. costvariable      &rarr; The core logic block calculating dynamic and static proxy fuel prices
+   f. emissionactivity  &rarr; Loads specific emission limits from static CSVs for combustion flows
+   g. post_processing   &rarr; Embed datasets and general sources taxonomy
+</code></pre></div>
+<hr>
+
+<h2 id="3-configuration-and-setup">3. Configuration and Setup</h2>
+<h3 id="general-settings">General Settings</h3>
+<p>Defined in <code>input/params.yaml</code>:</p>
+<ul>
+<li><strong><code>schema_version</code></strong>: Set to version 3.1.</li>
+<li><strong><code>periods</code></strong>: List of modeled future years (e.g., <code>[2025, ...]</code>).</li>
+<li><strong><code>eia_year</code></strong>: The specific vintage of the EIA AEO forecast to query (e.g., 2025 vs 2023).</li>
+<li><strong><code>b_price</code> &amp; <code>u_price</code></strong>: Statically defined $CAD prices for specific insulated domestic resources like biomass and uranium.</li>
+</ul>
+<h3 id="inflation-and-currency">Inflation and Currency</h3>
+<p>Handled structurally inside <code>setup.py</code> (via <code>inflation_constants()</code> function):</p>
+<ul>
+<li>Conversion variables (e.g., <code>deflation_2022</code>, <code>deflation_2025</code>).</li>
+<li>Volumetric adjustments (e.g., <code>mmbtuconvertor = 1.055</code>).</li>
+<li>Forex alignment (<code>currencyadjustment = 1.22</code>).</li>
+</ul>
+<hr>
+
+<h2 id="4-external-data-fetching-eia-aeo">4. External Data Fetching (EIA AEO)</h2>
+<p>CANOE uses the <strong>U.S. EIA Annual Energy Outlook (AEO)</strong> as the bedrock assumption for future North American wholesale energy price evolution.</p>
+<ul>
+<li><strong>Mechanism (<code>eia_api.py</code>)</strong>: Uses the EIA open API to explicitly pull <strong>Table 3: Energy Prices by Sector and Source</strong>.</li>
+<li>It queries the specific <code>eia_year</code> configuration from the <em>Reference</em> scenario (<code>ref2025</code>).</li>
+<li>Outputs are aggressively filtered downstream inside <code>setup.py</code> strictly keeping fields utilizing explicit MMBtu measurement units and discarding unneeded averages to isolate single physical flows.</li>
+</ul>
+<hr>
+
+<h2 id="5-technology-and-commodity-mapping">5. Technology and Commodity Mapping</h2>
+<p>The fuel sector creates bridging nodes. For every physical vector, an input commodity (e.g., generic electricity <code>E_elc_dem</code>) passes through a dummy technology (<code>E_COMMERCIAL_ELC</code>) and becomes available precisely to the specific end-use node (<code>C_elc</code>).</p>
+<ul>
+<li><strong><code>fuel_list.csv</code></strong>: Contains the taxonomy defining how generic commodities format.</li>
+<li><strong>Lifetime</strong>: Transfer technologies are assigned an arbitrary <code>LifetimeTech</code> of 5 years. This simply forces the optimizer to continually recognize the capacity as fully liquid rather than physically locked.</li>
+</ul>
+<hr>
+
+<h2 id="6-cost-variables-and-proxying">6. Cost Variables and Proxying</h2>
+<p>The <code>CostVariable</code> component is highly complex as it resolves mapping disparate U.S. pricing models into full Canadian sectoral resolutions.</p>
+<p>Variables are resolved inside <code>costvariable.py</code> using <code>_calc_value()</code>:</p>
+<ol>
+<li><strong>Explicit Static Config</strong>: Biomass and Uranium are explicitly calculated via config values (<code>b_price</code>, <code>u_price</code>).</li>
+<li><strong>Explicit Code Config</strong>: Non-fossil drop-in fuels (Ethanol, Renewable Diesel, SPK) utilize hard-coded price floors configured in <code>inflation_constants()</code>.</li>
+<li><strong>EIA Baseline Flows</strong>: Core demands (e.g., Industrial Natural Gas) pull their specific value dynamically directly from the loaded AEO Table 3 DataFrame.</li>
+<li><strong>Proxy Logic</strong>: The tool contains massive internal redirect mechanisms. Where exact matches aren't provided by AEO, proxy logic is utilized:
+<ul>
+<li><strong>LNG/CNG</strong>: Proxies to Transportation Natural Gas pricing using a discount factor (<code>0.89</code>).</li>
+<li><strong>LPG</strong>: Residential LPG maps to Residential Propane; generic LPG maps to Transport Propane.</li>
+<li><strong>Agriculture</strong>: Ag NG, Diesel, and Gasoline all directly mirror Transportation or Industrial sector pricing for their equivalent liquids.</li>
+<li><strong>Marine Diesel (MDO)</strong>: Bounded explicitly as 90% (<code>0.9 *</code>) of Transportation Diesel.</li>
+<li><strong>Electricity-Side Fuels</strong>: Residual oils, coal, and coke purchased by the electricity sector proxy back tightly to generic industrial generation fuel cost profiles.</li>
+</ul></li>
+</ol>
+<p><em>All outputs are fundamentally pushed through the MMBtu -&gt; PJ conversion while rectifying $USD to $CAD(2020) vectors.</em></p>
+<hr>
+
+<h2 id="7-efficiency-and-emissions">7. Efficiency and Emissions</h2>
+<h3 id="efficiencies">Efficiencies</h3>
+<p>Calculated in <code>efficiency.py</code>:</p>
+<ul>
+<li><strong>Fixed at 1.0</strong>: The mechanism assumes that drawing energy across a border boundary to an end-use node is a perfect transfer energetically. Any actual pipeline leaks, resistance losses, or spillage must be handled dynamically elsewhere (e.g., via provincial grid line efficiency variables).</li>
+</ul>
+<h3 id="emissions">Emissions</h3>
+<p>Calculated in <code>emissionactivity.py</code>:</p>
+<ul>
+<li><strong>Sources</strong>: Connects local CSVs (<code>upstream_emissions_fuels.csv</code> and <code>direct_comb_emission.csv</code>) to map specific <code>emis_comm</code> targets against combustion flows.</li>
+<li>Ties dummy tokens directly to operations ensuring that 1 PJ pulled enforces exactly N kilotons of generated physical emissions strictly inside the optimization math.</li>
+</ul>
+<hr>
+
+<h2 id="8-known-assumptions-and-limitations">8. Known Assumptions and Limitations</h2>
+<ol>
+<li><strong>Proxying Economics via AEO</strong>: Extending US energy pricing vectors natively against the entire Canadian energy regime ignores major geographic realities. Domestic pipeline constraints, provincial royalties (like in Alberta), and varying carbon tax architectures are smoothed over massively by inheriting AEO wholesale trends.</li>
+<li><strong>Hardcoded Biofuel Economics</strong>: Ethanol, SPK, and Renewable Diesel are fundamentally hardcoded. They do not enjoy dynamic cost curve scaling corresponding to shifting global agricultural futures heavily skewing biofuel adoption pathways outside the near term.</li>
+<li><strong>Marine &amp; Transport Mappings</strong>: Anchoring prices (like <code>MDO -&gt; 0.9 * T_dsl</code> or <code>Agriculture Gas -&gt; T_gsl</code>) involves rigid fractional assumptions. Changes in marine bunker markets independent of general diesel markets are fundamentally invisible.</li>
+<li><strong>Inflation Anchoring</strong>: Core currency conversion strings and deflators are rigidly locked at 2022/2025 baselines inside <code>setup.py</code>. Severe rapid economic realignments post-2025 are inherently missed.</li>
+<li><strong>Efficiency Staticism (1.0)</strong>: Fuel imports strictly lack transmission/pipeline losses represented inside this specific subsystem.</li>
+</ol>
+<div class="section-divider">
+  <h1 id="canoe-fuel-sector-data-sources-catalog">CANOE Fuel Sector &mdash; Data Sources Catalog</h1>
+</div>
+
+<h2 id="1-data-source-summary">1. Data Source Summary</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Data Type</th>
+<th style="text-align: left;">Primary Source</th>
+<th style="text-align: left;">Granularity</th>
+<th style="text-align: left;">Update Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Fossil Fuel Prices</strong></td>
+<td style="text-align: left;">U.S. EIA AEO (Table 3)</td>
+<td style="text-align: left;">USA Aggregate / Annual</td>
+<td style="text-align: left;">Annual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Emission Factors</strong></td>
+<td style="text-align: left;">Direct Internal CSVs</td>
+<td style="text-align: left;">Fuel / Output Type</td>
+<td style="text-align: left;">Static/Periodic</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Biomass/Uranium Prices</strong></td>
+<td style="text-align: left;"><code>params.yaml</code> config</td>
+<td style="text-align: left;">Domestic Aggregate</td>
+<td style="text-align: left;">Periodic</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Alternative Fuel Specs</strong></td>
+<td style="text-align: left;">Python Constants</td>
+<td style="text-align: left;">Domestic Aggregate</td>
+<td style="text-align: left;">Periodic</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-us-eia-annual-energy-outlook-aeo">2. U.S. EIA Annual Energy Outlook (AEO)</h2>
+<ul>
+<li><strong>Usage</strong>: Provides Table 3 dynamic trajectories anchoring general wholesale and retail fuel prices over the multi-decade horizon.</li>
+<li><strong>Update Procedure</strong>: Relies profoundly upon their open API tool. An API key must be inserted properly. Adjust the <code>eia_year</code> configuration parameter inside <code>params.yaml</code> to instruct <code>eia_api.py</code> regarding which AEO release vintage to query initially.</li>
+</ul>
+<h2 id="3-internal-csv-references">3. Internal CSVs</h2>
+<ul>
+<li><strong>Usage</strong>: <code>upstream_emissions_fuels.csv</code>, <code>direct_comb_emission.csv</code>, and <code>fuel_list.csv</code> manually map basic physics directly corresponding to fossil combustion dynamics inside Canada.</li>
+<li><strong>Update Procedure</strong>: Must be manually updated inside the <code>/input/</code> repository. Update cycles are infrequent unless EPA/ECCC fundamentally recategorize emission equivalence thresholds.</li>
+</ul>
+<h2 id="4-internal-constants-setupconfig">4. Internal Constants (Setup/Config)</h2>
+<ul>
+<li><strong>Usage</strong>: Controls hardcoded variables mapping exact boundaries for Biofuels, Forex ratios, and Deflation baselines.</li>
+<li><strong>Update Procedure</strong>: For CANOE periodic audits, users must review <code>inflation_constants()</code> explicitly inside <code>setup.py</code> and modify the values of <code>currencyadjustment</code>, <code>deflation</code>, <code>eth_price</code>, <code>rdsl_price</code>, and <code>spk_price</code> leveraging updated monetary and spot-market policy bounds.</li>
+</ul>
+<h2 id="5-update-procedures-checklist">5. Update Procedures (Checklist)</h2>
+<p>During regular annual or biannual CANOE updates:</p>
+<ol>
+<li><strong>EIA API Key &amp; Caching</strong>: Assert an active EIA developer API string exists inside the configuration boundaries. Delete the contents of <code>cache/dataframes.pkl</code> forcing CANOE to communicate with Washington and ingest the newest energy matrices.</li>
+<li><strong>Review Params.yaml</strong>: Update <code>eia_year</code> reflecting newly published AEO projections. Determine if <code>b_price</code> or <code>u_price</code> demand spot-market corrections.</li>
+<li><strong>Review Setup.py Constants</strong>: Critically review <code>inflation_constants()</code> inside <code>setup.py</code>. The inflation, Forex ratio, and raw alternative fuel (Eth/SPK/RDsl) variables explicitly need manual oversight against current Canadian fiscal policy.</li>
+<li><strong>Execution Test</strong>: Generate the fuel node database. Search manually for logging output failures warning around <code>"No base price for X"</code> to ensure AEO hasn't renamed fundamental query strings that broke downstream price proxy matching.</li>
+</ol>
+</main>
+
+</body>
+</html>
